@@ -1,0 +1,52 @@
+[
+    {
+        "postId" : 1,
+        "nickname" : "배수민",
+        "createtime" : "2024:04:12 09:00:00",
+        "content" : "맛있어 보여요"
+    },
+    {
+        "postId" : 2,
+        "nickname" : "김진성",
+        "createtime" : "2024:04:15 05:46:00",
+        "content" : "이거 얼마임"
+    },
+    {
+        "postId" : 2,
+        "nickname" : "이시온",
+        "createtime" : "2024:04:16 17:25:01",
+        "content" : "배고프네"
+    },
+    {
+        "postId" : 3,
+        "nickname" : "이혜나",
+        "createtime" : "2024:04:14 18:23:01",
+        "content" : "오늘 점심은 이거다"
+    },
+    {
+        "postId" : 3,
+        "nickname" : "레이즈",
+        "createtime" : "2024:04:13 13:26:20",
+        "content" : "여기 어디임?"
+    },
+    {
+        "postId" : 3,
+        "nickname" : "바이퍼",
+        "createtime" : "2024:04:12 14:37:00",
+        "content" : "진짜 맛있어 보이네"
+    }
+    ,
+    {
+        "postId" : 4,
+        "nickname" : "브리치",
+        "createtime" : "2024:04:11 11:42:00",
+        "content" : "10만원 예상합니다"
+    }
+    ,
+    {
+        "postId" : 4,
+        "nickname" : "레이나",
+        "createtime" : "2024:04:18 12:16:00",
+        "content" : "난 별로네"
+    }
+]

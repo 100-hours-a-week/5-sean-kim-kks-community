@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>테스트</title>
+    <link rel="stylesheet" href="./게시글 상세 조회.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header-wrapper">
+        <div class="header-main">
+          <input class="header-prev-button" type="button" value="<" onclick="history.back();" />
+          <span class="header-title">아무 말 대잔치</span>
+          <img class="header-profile-button" src="/images/488penguin2_100230.png" width="36px" height="36px">
+        </div>
+      </div>
+      <div class="content-wrapper">
+        <div class="main">
+          <div class="content-header">
+            <div class="content-title">제목1</div>
+            <div class="content-author-wrapper">
+              <div class="content-author">
+                <div class="content-author-profile">
+                  <!-- <div class="profile-image">이미지</div> -->
+                  <p>더미 작성자1</p>
+                </div>
+                <div class="content-author-date">2021-01-01 00:00:00</div>
+              </div>
+              <div class="content-button2">
+                <button class="content-edit-button">수정</button>
+                <button class="content-delete-button">
+                  <a href="#modal">삭제</a>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="content-body">
+            <img
+              src="https://picsum.photos/200/300"
+              alt="이미지"
+              class="content-thumbnail"
+            />
+            <div class="content-paragraph">
+              facere, laboriosam amet eligendi, impedit libero aliquam? Nulla
+              tempora optio deserunt iure, cumque necessitatibus saepe earum
+              commodi, molestiae, repellendus hic? Nesciunt reiciendis, quam
+              repellat harum, consequatur cumque soluta culpa veritatis vero
+              saepe molestias sapiente enim perspiciatis maiores. Nemo explicabo
+              hic omnis similique impedit, maiores quisquam reiciendis eos
+              voluptatem cupiditate consequatur! Modi, maiores. Impedit illum
+              porro explicabo, similique dicta perferendis. Voluptates tempore
+              distinctio sint ut dolorum repudiandae maiores! Magnam doloremque
+              tenetur quisquam beatae, perspiciatis corporis aspernatur quae,
+              veniam dolores nemo expedita eaque nam, ut dolor est ullam
+              pariatur et possimus consequatur quia tempora voluptates amet
+            </div>
+            <div class="content-button">
+              <div class="content-view-button">
+                <p>123</p>
+                <p>조회수</p>
+              </div>
+              <div class="content-comment-button">
+                <p>123</p>
+                <p>댓글</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="comment-wrapper">
+          <div class="comment-box">
+            <input
+              class="comment-box-content"
+              placeholder="댓글을 남겨주세요."
+            />
+            <div class="comment-box-submit-button-wrapper">
+              <button class="comment-box-submit-button">댓글 등록</button>
+            </div>
+          </div>
+          <div class="comment-footer">
+            <div class="comment-author-wrapper">
+              <div class="comment-author">
+                <div class="comment-author-header">
+                  <div class="comment-author-profile">
+                    <p>더미 작성자1</p>
+                  </div>
+                  <div class="comment-author-date">2021-01-01 00:00:00</div>
+                </div>
+                <div class="comment-author-content">댓글 내용</div>
+              </div>
+              <div class="comment-button">
+                <button class="comment-edit-button">수정</button>
+                <button class="comment-delete-button">삭제</button>
+              </div>
+            </div>
+            <div class="comment-author-wrapper">
+              <div class="comment-author">
+                <div class="comment-author-header">
+                  <div class="comment-author-profile">
+                    <p>더미 작성자1</p>
+                  </div>
+                  <div class="comment-author-date">2021-01-01 00:00:00</div>
+                </div>
+                <div class="comment-author-content">댓글 내용</div>
+              </div>
+              <div class="comment-button">
+                <button class="comment-edit-button">수정</button>
+                <button class="comment-delete-button">삭제</button>
+              </div>
+            </div>
+            <div class="comment-author-wrapper">
+              <div class="comment-author">
+                <div class="comment-author-header">
+                  <div class="comment-author-profile">
+                    <p>더미 작성자1</p>
+                  </div>
+                  <div class="comment-author-date">2021-01-01 00:00:00</div>
+                </div>
+                <div class="comment-author-content">댓글 내용</div>
+              </div>
+              <div class="comment-button">
+                <button class="comment-edit-button">수정</button>
+                <button class="comment-delete-button">삭제</button>
+              </div>
+            </div>
+            <div class="comment-author-wrapper">
+              <div class="comment-author">
+                <div class="comment-author-header">
+                  <div class="comment-author-profile">
+                    <p>더미 작성자1</p>
+                  </div>
+                  <div class="comment-author-date">2021-01-01 00:00:00</div>
+                </div>
+                <div class="comment-author-content">댓글 내용</div>
+              </div>
+              <div class="comment-button">
+                <button class="comment-edit-button">수정</button>
+                <button class="comment-delete-button">삭제</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <a href="#" class="close">&times; 닫기</a>
+        <h2>모달 제목</h2>
+        <p>여기에 모달 컨텐츠를 넣으세요.</p>
+      </div>
+    </div>
+  </body>
+</html>
