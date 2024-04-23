@@ -72,16 +72,32 @@
     //focusin -> 사용자가 텍스트 필드를 클릭하여 입력을 시작할 때
 
     //addeventlistener 로 사용자로부터 동작발생.
-    emailInput.addEventListener('focusout', function() {
+    emailInput.addEventListener('focusout', async function() { // async 추가
+        checkAllValidations(); 
+    
+        let isEmailDuplicated = false; // 초기화 위치 변경
+        if (emailInput.value !== '') { // 불필요한 fetch를 방지하기 위해 빈 값 체크
+            try {
+                const response = await fetch("./data/userdata.json");
+                const data = await response.json();
+                isEmailDuplicated = data.some(user => user.email === emailInput.value);
+            } catch (error) {
+                console.log('Error', error);
+            }
+        }
+    
         if (emailInput.value === '') {
             emailHelper.innerText = '*이메일을 입력해주세요';
         } else if (!validateEmail(emailInput.value)) {
             emailHelper.innerText = '*올바른 이메일 주소 형식을 입력해주세요. (예: example@example.com)';
-        } else {
-            emailHelper.innerText = ''; // Assumign API call for email check is not required here
-        }
-        checkAllValidations(); //이걸 해주므로써 버튼 색상 바뀌는지 안바뀌는지 결정 가능
+        } else if (isEmailDuplicated) {
+            emailHelper.innerText = '*중복된 이메일입니다.';
+        } else { 
+            emailHelper.innerText = ''
+        } 
+        checkAllValidations(); 
     });
+    
 
     passwordInput.addEventListener('focusout', function() {
         if (passwordInput.value === '') {
