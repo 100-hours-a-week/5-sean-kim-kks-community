@@ -30,18 +30,6 @@ loginWrapperElem.addEventListener('keyup', () => {
     }
 });
 
-//json 파일 가져오기
-function fetchData(){ //사용자데이터를 비동기적으로 가져오는 함수. 
-    return new Promise(function(receive){ //fetchdata 함수는 promise 객체를 반환.
-        fetch("/data/userdata.json") 
-            .then(function(response){ // 첫 번재 then 메서드는 fetch에서 받은 response 객체를 처리한다. 
-                return response.json(); // 응답 본문을 json으로 파싱 이를 then 메서드로 전달
-            })
-            .then(function(data){ //
-                receive(JSON.stringify(data)); //javascripit객체를 문자열로 변환 후 fetchdata 함수가 반환하는 receiive 함수에 전달.
-            });
-    });
-}
 
 //로그인 버튼 유효성 검사
 loginButton.addEventListener('click', async function(){

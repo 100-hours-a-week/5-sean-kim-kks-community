@@ -1,5 +1,4 @@
 "use strict";
-
 var deleteButton = document.querySelector('.content-delete-button');
 var editButton = document.querySelector('.content-edit-button');
 var viewCount = document.querySelector('.content-view-button p');
@@ -109,14 +108,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //게시글 삭제 모달
     contentModalOpen.addEventListener('click',function(){
-    //display 속성을 block로 변경
         contentModal.style.display = 'block';
     });
+
+    //게시글 삭제 취소 모달
     contentModalCancel.addEventListener('click',function(){
-    //display 속성을 none으로 변경
         contentModal.style.display = 'none';
     });
 
+    //게시글 삭제 모달 확인
     contentModalConfirm.addEventListener('click', function(){
         contentModal.style.display = 'none';
         window.location.href = "checkpostlist.html"
@@ -124,28 +124,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var currentDeletingComment = null;
     
-    // 각 댓글 삭제 버튼에 이벤트 리스너 추가
-    // commentModalOpens.forEach(function(button) {
-    //     button.addEventListener('click', function() {
-    //         currentDeletingComment = button.closest('.comment-author-wrapper');
-    //         commentModal.style.display = 'block';
-    //     });
-        
-    // });
-    
+    //댓글 삭제 모달 취소
     commentModalCancel.addEventListener('click',function(){
-        //display 속성을 none으로 변경
         commentModal.style.display = 'none';
     });
     
-    commentModalConfirm.addEventListener('click', function(){
+    //댓글 삭제 모달 확인
+    commentModalConfirm.addEventListener('click', async function(){
+        const PostId = this.getAttribute('data-postid')
 
-        if (currentDeletingComment) {
-            currentDeletingComment.remove();
-            currentDeletingComment = null; // 삭제 후 변수 초기화
+        try{
+            const response = await fetch("./data/userdata.json/${id}", {
+            method : "DELETE",
+        });
+
+        if (response.ok){
+            console.log('게시글이 성공적으로 삭제되었습니다.')
         }
-        // 모달창 숨기기
-        commentModal.style.display = 'none';
+
+        else {
+            console.error('게시글 삭제에 실패했습니다.', response.status);
+        }
+        } catch (error) {
+        console.error('게시글 삭제 중 오류가 발생했습니다.', error);
+        }
         
     });
 
@@ -178,18 +180,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. 댓글 수정 기능
     var isEditing = false; // 댓글 수정중인지 여부를 추적하는 변수
     var currentEditingComment = null; // 현재 수정 중인 댓글 요소를 저장하는 변수
-    
-    // commentEditButtons.forEach(button => {
-    //     button.addEventListener('click', function() {
-    //         isEditing = true; // 수정 모드로 변경
-    //         currentEditingComment = button.closest('.comment-author-wrapper').querySelector('.comment-author-content');
-    //         var originalContent = currentEditingComment.textContent;
-    
-    //         commentInput.value = originalContent;
-    //         commentSubmitButton.textContent = '댓글 수정';
-    //         commentSubmitButton.style.backgroundColor = '#7F6AEE';
-    //     });
-    // });
     
     // 댓글 등록/수정 버튼에 대한 이벤트 리스너는 한 번만 설정
     commentSubmitButton.addEventListener('click', function(){
