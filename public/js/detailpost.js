@@ -1,4 +1,5 @@
 "use strict";
+
 var deleteButton = document.querySelector('.content-delete-button');
 var editButton = document.querySelector('.content-edit-button');
 var viewCount = document.querySelector('.content-view-button p');
@@ -93,6 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     commentModal.style.display = 'block';
                 });
 
+
+                //게시글 삭제 확인
+                
             });
         })
         .catch(error => console.log('Error loading comment data:', error));
@@ -106,49 +110,77 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'modifypost.html'; // 수정 페이지 URL로 변경 필요
     });
 
-    //게시글 삭제 모달
+    //게시글 삭제 모달 오픈
     contentModalOpen.addEventListener('click',function(){
+    //display 속성을 block로 변경
         contentModal.style.display = 'block';
     });
 
-    //게시글 삭제 취소 모달
+    //게시글 삭제 취소
     contentModalCancel.addEventListener('click',function(){
+    //display 속성을 none으로 변경
         contentModal.style.display = 'none';
     });
 
-    //게시글 삭제 모달 확인
-    contentModalConfirm.addEventListener('click', function(){
+    contentModalConfirm.addEventListener('click', async function(){
+
+        if (currentDeletingComment) {
+            currentDeletingComment.remove();
+            currentDeletingComment = null; // 삭제 후 변수 초기화
+            
+        }
+        
+        // delete 요청 처리 실패실패실패
+        // const postId = urlParams.get('postId'); 
+        // try {
+        //
+        //     const response = await fetch(`/detailpost.html?postId=${postId}`, {
+        //         method: 'DELETE',
+        //     });
+    
+        //     if (response.ok) {
+        //        
+        //         console.log('게시글이 성공적으로 삭제되었습니다.');
+        //         window.location.href = "checkpostlist.html"; // 성공 후, 게시글 목록 페이지로 리다이렉트
+        //     } else {
+        //      
+        //         console.error('게시글 삭제에 실패했습니다.', response.status);
+        //     }
+        // } catch (error) {
+        //     console.error('게시글 삭제 중 오류가 발생했습니다.', error);
+        // }
+        alert('삭제되었습니다.');
         contentModal.style.display = 'none';
-        window.location.href = "checkpostlist.html"
+        
+
     });
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const contentModalConfirm = document.getElementById('your-button-id');
+    });
+
+    
+
 
     var currentDeletingComment = null;
     
-    //댓글 삭제 모달 취소
+    //댓글 삭제 취소
     commentModalCancel.addEventListener('click',function(){
+        //display 속성을 none으로 변경
         commentModal.style.display = 'none';
     });
     
-    //댓글 삭제 모달 확인
-    commentModalConfirm.addEventListener('click', async function(){
-        const PostId = this.getAttribute('data-postid')
-
-        try{
-            const response = await fetch("./data/userdata.json/${id}", {
-            method : "DELETE",
-        });
-
-        if (response.ok){
-            console.log('게시글이 성공적으로 삭제되었습니다.')
+    //댓글 삭제 확인
+    commentModalConfirm.addEventListener('click', function(){
+        if (currentDeletingComment) {
+            currentDeletingComment.remove();
+            currentDeletingComment = null; // 삭제 후 변수 초기화
         }
-
-        else {
-            console.error('게시글 삭제에 실패했습니다.', response.status);
-        }
-        } catch (error) {
-        console.error('게시글 삭제 중 오류가 발생했습니다.', error);
-        }
-        
+        alert('삭제되었습니다.');
+        // 모달창 숨기기
+        commentModal.style.display = 'none';
     });
 
 
@@ -170,7 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
             else {
                 commentSubmitButton.style.backgroundColor = '#7F6AEE';
                 commentSubmitButton.addEventListener('click', function(event){
-                    // alert('댓글 등록'); 무한 alert 창이 나오는데 아직 해결 못함.
                     // document.location.reload(true);
                 });
             }
@@ -180,7 +211,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. 댓글 수정 기능
     var isEditing = false; // 댓글 수정중인지 여부를 추적하는 변수
     var currentEditingComment = null; // 현재 수정 중인 댓글 요소를 저장하는 변수
-    
     // 댓글 등록/수정 버튼에 대한 이벤트 리스너는 한 번만 설정
     commentSubmitButton.addEventListener('click', function(){
         if (isEditing) {

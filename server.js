@@ -1,6 +1,12 @@
 const express = require('express');
 const app = express();
 const port = 8080; 
+const path = require('path');
+const fs = require('fs');
+const cors = require('cors');
+
+app.use(cors());
+
 
 app.use(express.static('public'));
 
@@ -21,42 +27,31 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-// // 회원가입 api 구현
 
-// app.use(express.json());
-// app.use(express.urlencoded({extended: true}));
+// 게시글 삭제 -> json 파일 적용 실패실패실패
+// const postsFilePath = path.join(__dirname, '../../data/post.json');
 
-// const users =[
-//   { id: 2, name: "유저2"},
-//   { id: 3, name: "유저3"},
-//   { id: 4, name: "유저4"}
-// ];
+// app.delete('/posts/:postId', (req, res) => {
+//   const postId = req.params.postId;
 
+//   fs.readFile(postsFilePath, (err, data) => {
+//     if (err) {
+//         res.status(500).send('서버에서 파일을 읽는 중 오류가 발생했습니다.');
+//         return;
+//     }
+//     // JSON 데이터 파싱
+//     const posts = JSON.parse(data);
+//     // 요청된 postId와 일치하지 않는 항목만 필터링
+//     const filteredPosts = posts.filter(post => post.id.toString() !== postId);
 
-// //400버 
-// app.post('/public/signup.html', (req, res) => {
-//   const {email, password, nickname, profile_image} = req.body;
-
-//   if (!email || !password || !nickname ) {
-//     return res.status(400),json({
-//       message : "invalid_request",
-//       data : null
-//     });
-//   }
-
-//     res.status(201).json({
-//       message : "register_sucess",
-//       data : {
-//         user_id: 1
-//       }
+//     // 변경된 데이터를 파일에 다시 쓰기
+//     fs.writeFile(postsFilePath, JSON.stringify(filteredPosts, null, 2), (err) => {
+//         if (err) {
+//             res.status(500).send('게시글 삭제 중 오류가 발생했습니다.');
+//             return;
+//         }
+//         res.send('게시글이 성공적으로 삭제되었습니다.');
 //     });
 // });
 
-// // 500번 
-// app.use((err, req, res, next) => {
-//   console.error(err.stack);
-//   res.status(500).json({
-//     message : "internal_server_error",
-//     data : null
-//   });
-// });
+// })
