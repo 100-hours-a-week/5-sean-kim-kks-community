@@ -30,21 +30,9 @@ loginWrapperElem.addEventListener('keyup', () => {
     }
 });
 
-//json 파일 가져오기
-function fetchData(){ //사용자데이터를 비동기적으로 가져오는 함수. 
-    return new Promise(function(receive){ //fetchdata 함수는 promise 객체를 반환.
-        fetch("/data/userdata.json") 
-            .then(function(response){ // 첫 번재 then 메서드는 fetch에서 받은 response 객체를 처리한다. 
-                return response.json(); // 응답 본문을 json으로 파싱 이를 then 메서드로 전달
-            })
-            .then(function(data){ //
-                receive(JSON.stringify(data)); //javascripit객체를 문자열로 변환 후 fetchdata 함수가 반환하는 receiive 함수에 전달.
-            });
-    });
-}
 
 //로그인 버튼 유효성 검사
-loginButton.addEventListener('click', function(){
+loginButton.addEventListener('click', async function(){
     
     const email = emailInput.value.trim(); // 공백 제거 한 후 email 에 저장
     const password = passwordInput.value.trim();
@@ -61,19 +49,20 @@ loginButton.addEventListener('click', function(){
         helperText.textContent = '*비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야합니다.';
         return;
     }
-    //여기에 서버로부터 비밀번호 검증이 추가되어야한다.
-    fetchData().then(userData => {
-        const users = JSON.parse(userData); //문자열 형태의 json 데이터를 javascrpt 객체로 변환
-        const userFound = users.some(user => user.email === email && user.password === password);
-        //users.some -> users 배열을 순회하면서 주어진 조건과 만족하는 조건이 있는지 확인한다. 만족하면 true 아ㅏㅣ면 false 반환
-        if(userFound){
+    try {
+        // userdata.json 파일에서 사용자 데이터 불러오기
+        const response = await fetch("./data/userdata.json");
+        const users = await response.json();
+        // 사용자 데이터 내에서 입력된 이메일과 비밀번호가 일치하는 사용자가 있는지 확인
+        const userExists = users.some(user => user.email === email && user.password === password);
+        
+        if (userExists) {
             alert('로그인 성공!');
             window.location.href = "checkpostlist.html";
         } else {
             alert('로그인 실패: 이메일 또는 비밀번호가 잘못되었습니다.');
         }
-    }).catch(error => {
-        console.error('사용자 데이터를 불러오는 데 실패했습니다.', error);
-    });
+    } catch (error) {
+        console.error('로그인 에러:', error);
+    }
 });
-

@@ -54,8 +54,6 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 
-
-
 document.addEventListener('DOMContentLoaded', function() {
     fetch('/data/post.json') 
     .then(response => response.json()) 
@@ -77,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="content-author-header">${post.title}</div>
                     <div class="content-author-body-wrapper">
                         <div class="content-author-views">
-                            <p>좋아요 ${post.likes}  댓글 ${post.comments}  조회수 ${post.views}</p>                            
+                            <p>좋아요 ${formatCount(post.likes)}  댓글 ${post.comments}  조회수 ${formatCount(post.views)}</p>                            
                         </div>
                         <div class="content-author-date">${post.createtime}</div>
                     </div>
@@ -100,3 +98,14 @@ document.addEventListener('DOMContentLoaded', function() {
     .catch(error => console.error('Error loading post data:', error));
 });
 
+function formatCount(count) {
+    if (count >= 100000) {
+        return (count / 1000).toFixed(0) + 'k';
+    } else if (count >= 10000) {
+        return (count / 1000).toFixed(0) + 'k';
+    } else if (count >= 1000) {
+        return (count / 1000).toFixed(0) + 'k';
+    } else {
+        return count.toString();
+    }
+}
