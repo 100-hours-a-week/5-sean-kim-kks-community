@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const postId = urlParams.get('postId');
 
     // post.json에서 데이터를 불러옵니다.
-    fetch('/data/post.json')
+    fetch('http://localhost:3001/posts')
         .then(response => response.json())
         .then(data => {
         // postId에 해당하는 게시물 데이터
@@ -122,37 +122,34 @@ document.addEventListener('DOMContentLoaded', () => {
         contentModal.style.display = 'none';
     });
 
+    //게시글 삭제
     contentModalConfirm.addEventListener('click', async function(){
+        
+    // URL에서 postId 파라미터 값을 가져옵니다.
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('postId');
 
-        if (currentDeletingComment) {
-            currentDeletingComment.remove();
-            currentDeletingComment = null; // 삭제 후 변수 초기화
-            
+        try {
+            const response = await fetch(`http://localhost:3001/posts/${postId}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) { // 성공적으로 삭제되었을 때
+                alert('삭제되었습니다.');
+                contentModal.style.display = 'none';
+                window.location.href = 'checkpostlist.html';
+                // 삭제 후, 홈페이지나 다른 페이지로 리다이렉트 할 수 있습니다.
+                // 예: window.location.href = 'index.html';
+            } else {
+                // 서버에서 문제가 발생했을 때의 처리
+                alert('삭제 실패. 서버에 문제가 발생했습니다.');
+                
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('삭제 중 에러가 발생했습니다.');
         }
-        
-        // delete 요청 처리 실패실패실패
-        // const postId = urlParams.get('postId'); 
-        // try {
-        //
-        //     const response = await fetch(`/detailpost.html?postId=${postId}`, {
-        //         method: 'DELETE',
-        //     });
     
-        //     if (response.ok) {
-        //        
-        //         console.log('게시글이 성공적으로 삭제되었습니다.');
-        //         window.location.href = "checkpostlist.html"; // 성공 후, 게시글 목록 페이지로 리다이렉트
-        //     } else {
-        //      
-        //         console.error('게시글 삭제에 실패했습니다.', response.status);
-        //     }
-        // } catch (error) {
-        //     console.error('게시글 삭제 중 오류가 발생했습니다.', error);
-        // }
-        alert('삭제되었습니다.');
-        contentModal.style.display = 'none';
-        
-
     });
 
 

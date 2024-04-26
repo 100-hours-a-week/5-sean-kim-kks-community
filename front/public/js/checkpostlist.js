@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('/data/post.json') 
+    fetch('http://localhost:3001/posts') 
     .then(response => response.json()) 
     .then(data => {
         const contentWrapper = document.querySelector('.content-body');
