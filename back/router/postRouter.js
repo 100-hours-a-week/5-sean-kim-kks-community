@@ -8,6 +8,6 @@ router.post("/", postPath.postPost);
 
 router.delete("/:id", postPath.deletePost);
 
-router.patch("/:id", postPath.patchPost);
+router.put("/:id", postPath.updatePost); // 수정 요청을 처리할 PUT 엔드포인트 추가
 
 module.exports = router;

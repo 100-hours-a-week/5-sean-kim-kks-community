@@ -1,75 +1,67 @@
 "use strict";
-/* 
-1. 제목 최대 26자 작성 가능 27자 이상시 작성 안됨
-2. 게시글 본문 longtext 타입 저장
-3. 기존 이미지 파일로 저장되어 보여주고, 이미지 파일은 1개만 올릴 수 있음.
-4. 클릭시 게시글이 수정되고 해당 게시글 상세보기로 이동.
-*/
+const titleInput = document.querySelector('.content-header-subtitle-input');
+const fileUpload = document.getElementById('file-upload');
+const completeButton = document.querySelector('.complete-button');
 
-//게시글 수정 -> fetch로 해야할 듯 게시글 상세이동만 해야겟다.
-// 이미지파일 보류지
-    // 3. 이미지 파일 업로드 제한
-    const titleInput = document.querySelector('.content-header-subtitle-input'); // 제목 입력 필드 선택
-    const fileUpload = document.getElementById('file-upload');
-    const completeButton = document.querySelector('.complete-button');
 
-    document.addEventListener('DOMContentLoaded', function() {
-        
-        
-        fileUpload.addEventListener('change', function() {
-            if (this.files.length > 1) {
-                alert('이미지 파일은 1개만 업로드할 수 있습니다.');
-                this.value = ''; // 선택된 파일 초기화
-            }
-        });
-});
-
-//게시글 수정
-document.addEventListener('DOMContentLoaded', () => {
-    const editingPost = JSON.parse(localStorage.getItem('editingPost')); //이 부분 조사좀 해야됌 아마 이부분이 문제일 가능성이 큼
+document.addEventListener('DOMContentLoaded', function() {
+    
+    fileUpload.addEventListener('change', function() {
+        if (this.files.length > 1) {
+            alert('이미지 파일은 1개만 업로드할 수 있습니다.');
+            this.value = ''; // 선택된 파일 초기화
+        }
+    });
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('postId');
 
-    if (editingPost) {
-        document.querySelector('.content-header-subtitle-input').value = editingPost.title;
-        document.getElementById('body-input').value = editingPost.content;
-
-    } else {
-        console.error('수정할 게시글 정보를 찾을 수 없습니다.');
-        // 여기에 게시글 정보가 없을 때의 처리 로직을 추가하세요.
-    }
-    // 수정 완료 버튼 이벤트 리스너
-    // 수정 완료 버튼 이벤트 리스너
-    completeButton.addEventListener('click', function() {
-        const updatedTitle = document.querySelector('.content-header-subtitle-input').value;
-        const updatedContent = document.getElementById('body-input').value;
-        
-        if (titleInput.value.trim() === '' || document.getElementById('body-input').value.trim() === '') {
-            alert('제목과 내용은 필수로 입력해야 합니다.');
+    fetch(`http://localhost:3001/posts`)
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(post => {
+        if(data.id !== postId){
             return;
+        } else{
+            document.querySelector('.content-header-subtitle-input').value = data.title;
+            document.getElementById('body-input').value = data.content;
         }
+    });
+});
+});
+// 예를 들어, 수정 폼의 제출 버튼에 대한 이벤트 리스너를 추가합니다.
+completeButton.addEventListener('click', async function(e) {
+    e.preventDefault(); // 폼 기본 제출 방지
 
-        // 수정된 데이터를 서버로 전송
-        fetch(`http://localhost:3001/posts/${postId}`, { // 여기 수정
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                title: updatedTitle,
-                content: updatedContent,
-            }),
+    // URL에서 postId 파라미터 값을 가져옵니다.
+    const postId = new URLSearchParams(window.location.search).get('postId');
+    // 수정 폼에서 데이터를 가져옵니다.
+    const title = document.querySelector('.content-header-subtitle-input').value;
+    const content = document.getElementById('body-input').value;
+    // 데이터를 서버로 보내는 fetch 요청
+    try {
+        const response = await fetch(`http://localhost:3001/posts/${postId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            title: title,
+            content: content,
+            // 기타 필드도 포함
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-            // 성공적으로 수정되면, 게시물 상세페이지로 리다이렉트
-            window.location.href = `detailpost.html?postId=${editingPost.id}`;
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
     });
 
+    if (response.ok) { // 성공적으로 삭제되었을 때
+        alert('수정 되었습니다.');
+        window.location.href = `detailpost.html?postId=${postId}`; // 수정이 완료된 후, 상세 페이지로 리디렉션
+        // 삭제 후, 홈페이지나 다른 페이지로 리다이렉트 할 수 있습니다.
+        // 예: window.location.href = 'index.html';
+    } else {
+        // 서버에서 문제가 발생했을 때의 처리
+        alert('수정 실패. 서버에 문제가 발생했습니다.');
+    }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('수정 중 에러가 발생했습니다.');
+    }
 });
-

@@ -41,13 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.content-comment-button p:first-child').textContent = formatCount(Number(post.comments));
           // 이미지, 조회수, 댓글 수 등도 비슷한 방식으로 채울 수 있습니다.
         }
-
-        editButton.addEventListener('click', function() {
-            localStorage.setItem('editingPost', JSON.stringify(post));
-            window.location.href = `modifypost.html?postId=${post.id}`;
-
-        });
-
         })
         .catch(error => console.error('Error loading post data:', error));
         
@@ -95,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     commentSubmitButton.style.backgroundColor = '#7F6AEE';
                 });
         
-                // 삭제 버튼에 대한 이벤트 리스너 추가
+                //댓글 삭제 버튼에 대한 이벤트 리스너 추가
                 commentElement.querySelector('.comment-delete-button').addEventListener('click', function() {
                     currentDeletingComment = commentElement;
                     commentModal.style.display = 'block';
@@ -113,7 +106,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //게시글 수정 누르면 해당 이미지, 내용, 제목
     // 2. 수정 클릭 시 게시글 수정 페이지로 이동
-    
+    //게시글 수정 버튼 클릭
+editButton.addEventListener('click', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('postId');
+    // modifypost.html로 이동하면서 postId 파라미터를 포함시킵니다.
+    window.location.href = `modifypost.html?postId=${postId}`;
+});
+
 
 
 
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // URL에서 postId 파라미터 값을 가져옵니다.
         const urlParams = new URLSearchParams(window.location.search);
         const postId = urlParams.get('postId');
-
+    
         try {
             const response = await fetch(`http://localhost:3001/posts/${postId}`, {
                 method: 'DELETE',
@@ -156,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error:', error);
             alert('삭제 중 에러가 발생했습니다.');
         }
-    
     });
 
 

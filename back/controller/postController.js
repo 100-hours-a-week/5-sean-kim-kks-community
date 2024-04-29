@@ -14,9 +14,7 @@ module.exports.getPost = async (req, res, next) => {
 };
 
 module.exports.postPost = async (req, res, next) => {
-
 };
-
 
 module.exports.deletePost = async (req, res, next) => {
     const postId = parseInt(req.params.id);
@@ -29,28 +27,27 @@ module.exports.deletePost = async (req, res, next) => {
     }
 };
 
-module.exports.patchPost = async(req, res, next) => {
-    const postId = parseInt(req.params.id); // 요청에서 postId를 추출
-    const updatedPost = req.body; // 클라이언트에서 보낸 수정된 게시글 데이터
+module.exports.updatePost = async(req, res, next) => {
+    const postId = parseInt(req.params.id);
+    const { title, content } = req.body;
 
     try {
-        const data = await fs.readFile(filePath, 'utf8'); // 파일 읽기
+        const data = await fs.readFile(filePath, 'utf8');
         let posts = JSON.parse(data);
 
-        const postIndex = posts.findIndex(post => post.id === postId);
-        if (postIndex === -1) { // 수정할 포스트를 찾지 못한 경우
-            res.status(404).json({ message: "해당하는 게시글을 찾을 수 없습니다." });
-            return;
-        }
+        const postIndex = posts.findIndex(post => post.id == postId);
+        if (postIndex !== -1) {
+            posts[postIndex].title = title;
+            posts[postIndex].content = content;
 
-        // 게시글 데이터 업데이트
-        posts[postIndex] = { ...posts[postIndex], ...updatedPost };
-        
-        await fs.writeFile(filePath, JSON.stringify(posts, null, 2), 'utf8'); // 변경된 데이터를 파일에 쓰기
-        res.json({ message: "게시글이 성공적으로 수정되었습니다." });
-    } catch (error) {
-        console.error('Error updating the file:', error);
-        res.status(500).json({ message: "서버에서 파일을 수정하는 중 오류가 발생했습니다." });
+            await fs.writeFile(filePath, JSON.stringify(posts, null, 2));
+            res.status(200).send('Post updated');
+        } else {
+            return res.status(404).send('Post not found');
+        }
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).send('Error processing your request');
     }
 };
 
