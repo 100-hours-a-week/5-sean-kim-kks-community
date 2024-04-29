@@ -41,6 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.content-comment-button p:first-child').textContent = formatCount(Number(post.comments));
           // 이미지, 조회수, 댓글 수 등도 비슷한 방식으로 채울 수 있습니다.
         }
+
+        editButton.addEventListener('click', function() {
+            localStorage.setItem('editingPost', JSON.stringify(post));
+            window.location.href = `modifypost.html?postId=${post.id}`;
+
+        });
+
         })
         .catch(error => console.error('Error loading post data:', error));
         
@@ -76,9 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
 
                 commentsContainer.appendChild(commentElement);
-
                 //json댓글 각 댓글 요소가 생성될 때마다 수정 및 삭제 버튼에 대한 이벤트리스너 세팅
-                //동적으로 생성된 요소에 이벤트 리스너를 추가하려면, 해당 요소들이 문서에 추가된 이후에 이벤트 리스너를 추가해야 합니다.
+                //동적으로 생성된 요소에 이벤트 리스너를 추가하려면, 해당 요소들이 문서에 추가된 이후에 이벤트 리스너를 추가
+
                 commentElement.querySelector('.comment-edit-button').addEventListener('click', function() {
                     isEditing = true;
                     currentEditingComment = commentElement.querySelector('.comment-author-content');
@@ -100,15 +107,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         })
         .catch(error => console.log('Error loading comment data:', error));
-
+        
+        
 });
 
-
-
+    //게시글 수정 누르면 해당 이미지, 내용, 제목
     // 2. 수정 클릭 시 게시글 수정 페이지로 이동
-    editButton.addEventListener('click', function() {
-        window.location.href = 'modifypost.html'; // 수정 페이지 URL로 변경 필요
-    });
+    
+
+
 
     //게시글 삭제 모달 오픈
     contentModalOpen.addEventListener('click',function(){
@@ -157,9 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('DOMContentLoaded', function() {
         const contentModalConfirm = document.getElementById('your-button-id');
     });
-
-    
-
 
     var currentDeletingComment = null;
     
