@@ -18,7 +18,7 @@
     "createtime": "2024-04-12 11:13:00",
     "profile_image": "/images/free-icon-animals-1717994.png",
     "image": "/images/40d0fb3794229958bdd1e36520a4440f.jpg",
-    "content": "두번째 컨텐츠",
+    "content": "짜장면",
     "views": 4000,
     "likes": 100000,
     "comments": 2
@@ -26,11 +26,11 @@
   {
     "id": 3,
     "nickname": "이용주",
-    "title": "육회비빔밥",
+    "title": "육회연어비빔밥",
     "createtime": "2024-04-12 11:11:00",
     "profile_image": "/images/free-icon-penguin-1864572.png",
     "image": "/images/d13ea4a756099add8375e6c795b827ab.jpg",
-    "content": "세번째",
+    "content": "세네번째",
     "views": 40000,
     "likes": 10000,
     "comments": 3

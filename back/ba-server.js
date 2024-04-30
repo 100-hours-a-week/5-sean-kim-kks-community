@@ -13,6 +13,9 @@ app.use(cors());
 const postRoute = require("./router/postRouter")
 app.use("/posts", postRoute);
 
+const CommentRoute = require("./router/commentRouter")
+app.use("/comments", CommentRoute)
+
 //경로설정
 app.use(express.static("../front/public"));
 
