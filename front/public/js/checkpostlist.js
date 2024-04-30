@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('/data/post.json') 
+    fetch('http://localhost:3001/posts') 
     .then(response => response.json()) 
     .then(data => {
         const contentWrapper = document.querySelector('.content-body');
@@ -109,3 +109,54 @@ function formatCount(count) {
         return count.toString();
     }
 }
+
+
+let currentPage = 1;
+let isFetching = false;
+let hasMore = true;
+
+let root = document.getElementsByClassName('.content-body');
+
+async function fetchData() {
+    isFetching = true;
+    let response = await fetch(`http://localhost:3001/posts`);
+    let data = await response.json();
+    console.log(data);
+
+    isFetching = false;
+
+    if (data.length === 0) {
+        hasMore = false;
+        return
+    }
+
+    for (let post of data) {
+        let div = document.createElement('div');
+        div.innerHTML = `
+                <div class="content-author">
+                    <div class="content-author-header">${post.title}</div>
+                    <div class="content-author-body-wrapper">
+                        <div class="content-author-views">
+                            <p>좋아요 ${formatCount(post.likes)}  댓글 ${post.comments}  조회수 ${formatCount(post.views)}</p>                            
+                        </div>
+                        <div class="content-author-date">${post.createtime}</div>
+                    </div>
+                </div>
+                <div class="content-author-profile">
+                    <img src="${post.profile_image}" class="content-author-img" width="36px" height="36px">
+                    <div class="content-author-name">${post.nickname}</div>
+                </div>
+            `;
+    }
+    currentPage++;
+}
+
+window.addEventListener('scroll', () => {
+    if (isFetching || !hasMore) {
+        return
+    }
+
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        fetchData();
+    }
+})
