@@ -105,24 +105,56 @@ document.addEventListener('DOMContentLoaded', () => {
                     };
                 });
 //===============================================================================================================
-//                      댓글 수정.
- // commentElement.querySelector('.comment-edit-button').addEventListener('click', function() {
-            //     isEditing = true;
-            //     currentEditingComment = commentElement.querySelector('.comment-author-content');
-            //     var originalContent = currentEditingComment.textContent;
-            //     commentInput.value = originalContent;
-            //     commentSubmitButton.textContent = '댓글 수정';
-            //     commentSubmitButton.style.backgroundColor = '#7F6AEE';
-            // });
 
-            commentElement.querySelector('.comment-edit-button').addEventListener('click', async function() {
-                try{
-                } catch (error) {
-                    console.error('error: ', error);
-                    alert('수정 중 에러가 발생했습니다.')
-                }
+                editButton.addEventListener('click', function() {
+                    localStorage.setItem('editingPost', JSON.stringify(post));
+                    window.location.href = `modifypost.html?postId=${post.id}`;
+                });
+
+                var isEditing = false;
+                var currentEditingComment = null;
+
+                commentElement.querySelector('.comment-edit-button').addEventListener('click', async function() {
+                    isEditing = true;
+                    currentEditingComment = commentElement.querySelector('.comment-author-content');
+                    var originalContent = currentEditingComment.textContent;
+                    commentInput.value = originalContent;
+                    commentSubmitButton.textContent = '댓글 수정';
+                    commentSubmitButton.style.backgroundColor = '#7F6AEE';
+                }); 
                 
-            }); 
+                commentSubmitButton.addEventListener('click', async function(){
+                    if(isEditing && comment.commentId)
+                        try{
+                            const editedContent = commentInput.value;
+                            console.log(editedContent)
+                            
+                            const response = await fetch(`http://localhost:3001/comments/${comment.commentId}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    content: editedContent
+                                })
+                            });
+                            if (response.ok) {
+                                alert('댓글이 수정되었습니다.');
+                                currentEditingComment.textContent = editedContent; // 화면에 있는 댓글 내용 업데이트
+                                // 수정 상태 초기화
+                                isEditing = false;
+                                currentEditingComment = null;
+                                commentInput.value = ''; // 입력 필드 초기화
+                                commentSubmitButton.textContent = '댓글 작성'; // 버튼 텍스트 원래대로 변경
+                                commentSubmitButton.style.backgroundColor = ''; // 버튼 색상 원래대로 변경
+                            } else {
+                                alert('댓글 수정 실패. 서버에 문제가 발생했습니다.');
+                            }
+                            } catch (error) {
+                                console.error('Error:', error);
+                                alert('댓글 수정 중 에러가 발생했습니다.');
+                            }
+                });
 //==============================================================================================================
         }); //commentsForPost.forEach(comment => {
     });     // fetch('http://localhost:3001/comments')  .then(response => response.json()).then(comments => {   
@@ -130,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// 댓글 등록, 수정??
+// 댓글 등록
 var isEditing = false; // 댓글 수정중인지 여부를 추적하는 변수
 var currentEditingComment = null; // 현재 수정 중인 댓글 요소를 저장하는 변수
 // 댓글 등록/수정 버튼에 대한 이벤트 리스너는 한 번만 설정

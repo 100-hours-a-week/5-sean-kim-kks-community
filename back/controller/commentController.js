@@ -18,10 +18,30 @@ module.exports.postComment = async (req, res, next) => {
 
 };
 
-module.exports.updateComment = async (req, res, next) => {
-    res.status(500).json({ message: "서버에서 파일을 읽는 중 오류가 발생했습니다." });
+//댓글수정
+module.exports.updateComment = async(req, res, next) => {
+    const commentId = parseInt(req.params.id);
+    const newContent = req.body.content;
 
+    try{
+        const Data = await fs.readFile(filePath, 'utf8');
+        let comments = JSON.parse(Data);
+        const commentIndex = comments.findIndex(comment => comment.commentId == commentId);
+
+        if (commentIndex !== -1) {
+            comments[commentIndex].content = newContent;
+            await fs.writeFile(filePath, JSON.stringify(comments, null, 2));
+            res.status(200).send('Comment updated');
+        }
+        else {
+            return res.status(404).send({message: 'comment not found'});
+        }
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).send('Error processing your request');
+    }
 };
+
 
 module.exports.deleteComment = async (req, res, next) => {
     const commentId = parseInt(req.params.id);
