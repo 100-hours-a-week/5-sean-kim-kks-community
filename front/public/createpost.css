@@ -67,7 +67,9 @@ body {
 }
 
 .content-header-subtitle-input{
-    width: 500px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 480px;
     height: 60px;
     border: none;
     background-color: #f4f5f7;

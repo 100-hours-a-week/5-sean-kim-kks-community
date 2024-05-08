@@ -34,8 +34,68 @@ createButton.addEventListener('click', function(event){
 
     if ( !header || !body ){
         helperText[0].textContent = '*제목과 내용을 모두 작성해주세요.'; // 텍스트 변경
-    } else { 
-        window.location.href = "checkpostlist.html"; // 모두 작성되었을 때 페이지 이동
+    } else {
+        
     }
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const fileInput = document.getElementById('file-upload');
+    const previewContainer = document.querySelector('.image-preview-wrapper');
+
+    fileInput.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        
+        // 이 부분에서 선택된 파일이 이미지인지 확인
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            
+            reader.onload = function (e) {
+                // 이미지 미리보기를 표시하기 위한 img 요소를 생성
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.maxWidth = '100%'; // 이미지 크기 조정
+                img.style.height = 'auto';
+                
+                // 이전에 추가된 이미지를 제거
+                previewContainer.innerHTML = '';
+                // 새로운 이미지를 추가
+                previewContainer.appendChild(img);
+            };
+            
+            reader.readAsDataURL(file);
+        } else {
+            alert('이미지 파일을 선택해주세요.');
+            
+        }
+    });
+});
+
+const createPostButton = document.querySelector('.complete-button');
+
+createPostButton.addEventListener('click', async function(e){
+    e.preventDefault();
+    try{
+        const response = await fetch('http://localhost:3001/posts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: contentHeader.value,
+                content: contentBody.value,
+                //image 추가 요망
+            })
+        });
+        if (response.ok){
+            alert('게시글이 작성되었습니다.')
+            window.location.href = "checkpostlist.html"; // 모두 작성되었을 때 페이지 이동
+        }
+    } catch (error){
+        console.error('Error', error);
+        alert('생성 중 에러 발생')
+    }
+});
+
 

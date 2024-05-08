@@ -2,11 +2,11 @@
   {
     "id": 1,
     "nickname": "김민수",
-    "title": "닭칼비",
+    "title": "야채곱창",
     "createtime": "2024-04-11 11:22:00",
     "profile_image": "/images/free-icon-animal-13586859.png",
     "image": "/images/1604911318873_0.jpg",
-    "content": "닭칼국수",
+    "content": "연어샐러드",
     "views": 5000,
     "likes": 1000,
     "comments": 1
@@ -94,5 +94,16 @@
     "views": 14124,
     "likes": 1000,
     "comments": 2
+  },
+  {
+    "id": 9,
+    "title": "44",
+    "content": "44",
+    "createtime": "2024-05-08T15:48:39.650Z",
+    "views": 0,
+    "nickname": "",
+    "profile_image": "/images/free-icon-whale-1045140.png",
+    "likes": 0,
+    "comments": 0
   }
 ]
