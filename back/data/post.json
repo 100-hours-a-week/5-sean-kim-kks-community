@@ -97,11 +97,45 @@
   },
   {
     "id": 9,
-    "title": "44",
-    "content": "44",
-    "createtime": "2024-05-08T15:48:39.650Z",
+    "createtime": "2024-05-10 15:16:57",
     "views": 0,
-    "nickname": "",
+    "nickname": "익명",
+    "profile_image": "/images/free-icon-whale-1045140.png",
+    "likes": 0,
+    "comments": 0
+  },
+  {
+    "id": 10,
+    "createtime": "2024-05-10 15:24:33",
+    "views": 0,
+    "nickname": "익명",
+    "profile_image": "/images/free-icon-whale-1045140.png",
+    "likes": 0,
+    "comments": 0
+  },
+  {
+    "id": 11,
+    "createtime": "2024-05-10 15:29:44",
+    "views": 0,
+    "nickname": "익명",
+    "profile_image": "/images/free-icon-whale-1045140.png",
+    "likes": 0,
+    "comments": 0
+  },
+  {
+    "id": 12,
+    "createtime": "2024-05-10 15:32:18",
+    "views": 0,
+    "nickname": "익명",
+    "profile_image": "/images/free-icon-whale-1045140.png",
+    "likes": 0,
+    "comments": 0
+  },
+  {
+    "id": 13,
+    "createtime": "2024-05-10 15:32:41",
+    "views": 0,
+    "nickname": "익명",
     "profile_image": "/images/free-icon-whale-1045140.png",
     "likes": 0,
     "comments": 0

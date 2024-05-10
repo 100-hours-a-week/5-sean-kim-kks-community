@@ -12,7 +12,8 @@ const createButton = document.querySelector('.complete-button')
 const contentBody = document.getElementById('body-input')
 const helperText = document.getElementsByClassName('content-tail-helper')
 const conTainer = document.getElementsByClassName('container')
-
+const fileInput = document.getElementById('file-upload');
+const previewContainer = document.querySelector('.image-preview-wrapper');
 //제목 본문이 채워지면 버튼 색상이 변하게.
 //addeventlistener 은 클래스 이름이 아닌 특정 요소에 바인딩 해야한다. 제목, 내용 필드에 각각 이벤트 리스너를 추가해야함.
 //큰 function 하나로 eventlistener 를 제목, 본문 두개를 쓰고 if 로 묶어야될 듯?
@@ -41,8 +42,7 @@ createButton.addEventListener('click', function(event){
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    const fileInput = document.getElementById('file-upload');
-    const previewContainer = document.querySelector('.image-preview-wrapper');
+    
 
     fileInput.addEventListener('change', function (e) {
         const file = e.target.files[0];
@@ -75,16 +75,19 @@ document.addEventListener('DOMContentLoaded', function () {
 const createPostButton = document.querySelector('.complete-button');
 
 createPostButton.addEventListener('click', async function(e){
+    
     e.preventDefault();
     try{
         const response = await fetch('http://localhost:3001/posts', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 title: contentHeader.value,
                 content: contentBody.value,
+
                 //image 추가 요망
             })
         });

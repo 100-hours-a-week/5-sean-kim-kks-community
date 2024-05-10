@@ -2,6 +2,17 @@ const fs = require('fs').promises;
 const path = require('path');
 const filePath = path.join(__dirname, '../data/comment.json');
 
+function formatDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth()+ 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+
+    return year + "-" + month + "-" + day +" "+hours+":"+minutes+":"+seconds
+}
 
 module.exports.getComment = async (req, res, next) => {
     try {
@@ -14,8 +25,33 @@ module.exports.getComment = async (req, res, next) => {
 };
 
 module.exports.postComment = async (req, res, next) => {
-    res.status(500).json({ message: "서버에서 파일을 읽는 중 오류가 발생했습니다." });
+        
+        try {
+            comments = JSON.parse(await fs.readFile(filePath, { encoding: 'utf8' }));
 
+            const newComment = {
+                postId: req.body.postId,
+                commentId: comments.length > 0 ? comments[comments.length - 1].commentId + 1 : 1, // 마지막 댓글 ID에서 1 증가
+                nickname: "익명",
+                createtime: formatDate(),
+                content: req.body.content
+            };
+    
+            // 새 댓글을 배열에 추가
+            comments.push(newComment);
+    
+            // 파일에 새로운 댓글 배열을 저장
+            await fs.writeFile(filePath, JSON.stringify(comments, null, 2), 'utf8');
+
+            res.status(201).json({ message: "댓글이 성공적으로 등록되었습니다.", comment: newComment });
+
+        } 
+        // 성공 응답 전송
+        catch (error) {
+        // 서버 오류 
+            console.error(error);
+            res.status(500).json({ message: "서버에서 오류가 발생했습니다.", error: error.message });
+        }
 };
 
 //댓글수정
