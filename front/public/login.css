@@ -1,137 +1,123 @@
 
   /* 폰트 추가 */
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
+  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
 
-/* 페이지 설정 */
+  /* 페이지 설정 */
+
 body {
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Pretendard;
-      }
-      
-      a {
-        text-decoration: none;
-        color: black;
-      }
-      
-      li {
-        list-style: none;
-      }
-    
-      .tit {
-        text-align: center; /* 텍스트 가운데 정렬 */
-        top: 50px;
-        position: absolute; 
-        font-size: 40px;
-        font-weight: 400;
-        width: 100%;
-        font-family: Sandoll GogoRound;
-    }
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    background-color: #f4f5f7;
+    font-family: Pretendard;
+}
 
-      .hr{
-        width: 100%;
-        height: 1px;
-        background-color: black;
-        margin-top: 70px; /* 가로 줄과 텍스트 사이의 간격 조정 */
-        top: 104px
-    }
-      .wrap {
-        width: 100%;
-        height: 100vh;
-        display: flex;
+.body-content-wrapper{
+  width: 400px;
+  
+}
 
-        justify-content: center;
-        position : relative;
-      }
-      
-      .login {
-        width: 700px;
-        height: 100px;
-        font-size: 20px;
-        background: white;
-        border-radius: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        position: relative;
-        margin-top: 690px; /* 화면 상단에서 400px 아래에 위치 */
-      }
 
-      h2 {
-        color: #000000;
-        font-size: 45px;
-        line-height: 38.19px;
-        font-weight: 700;
-        text-align: center;
-        margin-bottom: 60px;
-      }
-      
-      .login_id {
-        margin-top: 20px;
-        width: 80%;
-      }
-      
-      .login_id input {
-        width: 100%;
-        height: 50px;
-        font-size: 21px;
-        border-radius: 10px;
-        margin-top: 10px;
-        padding: 0px 20px;
-        border: 1px solid lightgray;
-        outline: none;
-      }
-      
-      .login_pw {
-        margin-top: 20px;
-        width: 80%;
-      }
-      
-      .login_pw input {
-        width: 100%;
-        height: 50px;
-        font-size: 21px;
-        border-radius: 10px;
-        margin-top: 10px;
-        padding: 0px 20px;
-        border: 1px solid lightgray;
-        outline: none;
-      }
-      
-      .helper {
-        padding: 10px;
-        width: 80%;
-        font-size: 14px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-weight: bold;
-        color:red;
+  /* 헤더 */
+.header-main {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    gap: 30px;
+    border-bottom: 1px solid black;
+}
 
-      }
-      .submit {
-        margin-top: 20px;
-        margin-bottom: 17px;
-        width: 80%;
-      }
 
-      .submit input {
-        border: none;
-        width: 100%;
-        height: 50px;
-        outline: none;
-        border-radius: 10px;
-        background: #ACA0EB;
-        color: white;
-        font-size: 1.2em;
-        letter-spacing: 2px;
-      }
-      
-      .sign_up {
-        margin-top: 50px;
-      }
 
+.header-title {
+    align-items: center;
+    margin: 0 70px;
+    font-size: 35px;
+}
+
+
+.main{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.body-title{
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    margin-top: 160px;
+}
+
+.email{
+    margin-top: 80px;
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.body-email-input{
+    width: 384px;
+    font-size: 14px;
+    font-weight: 400;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 1px;
+}
+
+.body-passwd{
+    margin-top: 16px;
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.body-passwd-input{
+    width: 384px;
+    font-size: 14px;
+    font-weight: 400;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 1px;
+}
+
+.body-passwd-helper{
+    font-size: 12px;
+    font-weight: 400;
+    color: red;
+    margin-bottom: 15px;
+    word-break:break-word;
+}
+
+.login-button{
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 33px;
+    background-color: #ACA0EB;
+    color: #fff;
+    border-radius: 4px;
+    width: 400px;
+    height: 33px;
+    margin: 10px 0;
+}
+
+.go-signup{
+  text-decoration: none;
+  color: #000000;
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  justify-content: center;
 }

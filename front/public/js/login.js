@@ -1,11 +1,12 @@
 "use strict";
 
-const loginWrapperElem = document.querySelector('.login')
-const emailInput = document.querySelector('.login_id input')
-const passwordInput = document.querySelector('.login_pw input')
-const loginButton = document.querySelector('.submit input')
-const helperText = document.querySelector('.helper p');
-const signUpLink = document.querySelector('.sign_up a')
+const loginWrapperElem = document.querySelector('.body-wrapper')
+const emailInput = document.querySelector('.body-email-input')
+const passwordInput = document.querySelector('.body-passwd-input')
+const loginButton = document.querySelector('.login-button')
+const helperText = document.querySelector('.body-passwd-helper');
+const signUpLink = document.querySelector('.go-signup')
+
 
 // 이메일 유효성 검사
 
@@ -21,6 +22,7 @@ function validatePassword(password){
     return pattern.test(password);
 }
 
+
 loginWrapperElem.addEventListener('keyup', () => {
 
     if (emailInput.value && passwordInput.value) {  
@@ -32,8 +34,8 @@ loginWrapperElem.addEventListener('keyup', () => {
 
 
 //로그인 버튼 유효성 검사
-loginButton.addEventListener('click', async function(){
-    
+loginButton.addEventListener('click', async function(e){
+    e.defaultPrevented;
     const email = emailInput.value.trim(); // 공백 제거 한 후 email 에 저장
     const password = passwordInput.value.trim();
 

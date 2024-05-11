@@ -17,6 +17,48 @@ const previewContainer = document.querySelector('.image-preview-wrapper');
 //제목 본문이 채워지면 버튼 색상이 변하게.
 //addeventlistener 은 클래스 이름이 아닌 특정 요소에 바인딩 해야한다. 제목, 내용 필드에 각각 이벤트 리스너를 추가해야함.
 //큰 function 하나로 eventlistener 를 제목, 본문 두개를 쓰고 if 로 묶어야될 듯?
+//헤더 프로필 이미지 호버 배경 변경
+const menuItems = document.querySelectorAll('.menu-item');
+const mainButton = document.querySelector('.header-title');
+
+    mainButton.addEventListener('click', function(){
+        window.location.href = 'checkpostlist.html';
+    });
+
+
+//================================================================================
+menuItems.forEach(function(menuItem) {
+    menuItem.addEventListener('mouseover', function() {
+        menuItem.style.backgroundColor = '#E9E9E9';
+    });
+
+    menuItem.addEventListener('mouseout', function() {
+        menuItem.style.backgroundColor = '#d9d9d9';
+    });
+});
+
+// 프로필 이미지 클릭 이벤트 추가
+document.addEventListener('DOMContentLoaded', function() {
+    var menuItems = document.querySelectorAll('.menu-item');
+
+    // 첫 번째 menu-item (회원정보수정)에 클릭 이벤트 추가
+    menuItems[0].addEventListener('click', function() {
+        // 오타로 인한 문제를 JS로 해결
+        window.location.href = 'modifyinfo.html'; // 오타가 있는 herf 속성 사용
+    });
+
+    // 두 번째 menu-item (비밀번호수정)에 클릭 이벤트 추가
+    menuItems[1].addEventListener('click', function() {
+        window.location.href = 'modifypasswd.html'; // 비밀번호 변경 페이지로 이동
+    });
+
+    // 세 번째 menu-item (로그아웃)에 클릭 이벤트 추가
+    menuItems[2].addEventListener('click', function() {
+        window.location.href = 'login.html'; // 로그아웃 처리 페이지로 이동
+    });
+});
+//================================================================================
+
 function updateButtonColor(){
     if (contentHeader.value.trim() && contentBody.value.trim()){
         createButton.style.backgroundColor = '#7F6AEE'; // 모두 채워졌을 때 색상
