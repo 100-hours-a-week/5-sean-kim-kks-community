@@ -61,5 +61,12 @@
     "nickname": "익명",
     "createtime": "2024-05-10 16:27:10",
     "content": "안녕하세요"
+  },
+  {
+    "postId": "17",
+    "commentId": 10,
+    "nickname": "익명",
+    "createtime": "2024-05-13 14:38:11",
+    "content": "555"
   }
 ]

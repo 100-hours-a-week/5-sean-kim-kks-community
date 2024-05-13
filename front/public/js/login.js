@@ -22,7 +22,6 @@ function validatePassword(password){
     return pattern.test(password);
 }
 
-
 loginWrapperElem.addEventListener('keyup', () => {
 
     if (emailInput.value && passwordInput.value) {  
@@ -48,26 +47,40 @@ loginButton.addEventListener('click', async function(e){
         return;
     }
 
-    //여기서 서버에 로그인 요청을 보내야함. post로 로그인 요청
-    
     if (!validatePassword(password)){
         helperText.textContent = '*비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야합니다.';
         return;
     }
+
+    //여기서 서버에 로그인 요청을 보내야함. post로 로그인 요청
     try {
-        // userdata.json 파일에서 사용자 데이터 불러오기
-        const response = await fetch("./data/userdata.json");
-        const users = await response.json();
-        // 사용자 데이터 내에서 입력된 이메일과 비밀번호가 일치하는 사용자가 있는지 확인
-        const userExists = users.some(user => user.email === email && user.password === password);
-        
-        if (userExists) {
+        const response = await fetch(`http://localhost:3001/users`, { // 로그인 경로 수정 필요
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
             alert('로그인 성공!');
-            window.location.href = "checkpostlist.html";
+            window.location.href = "checkpostlist.html"; // 로그인 성공 시 리디렉션
         } else {
-            alert('로그인 실패: 이메일 또는 비밀번호가 잘못되었습니다.');
+            alert(data.message);
         }
     } catch (error) {
         console.error('로그인 에러:', error);
     }
+    
 });
+
+//=======================================================================================
+//로그인 시도 post 요청
+//request body의 userId 와 password가 일치하는 유저 조회
+//서버 logiin 컨트롤러 req.body.userId, req.body.password 일치하는 유저 조회
+//해당 유저가 있다면 sessiion에 userid 저장 성공응답
+//login 상태 변경 login 상태 true 서버로 해당 유저의 정보 요청
+// req.session.userid 없다면 실패응답 있다면 유저 정보를 response 객체 담아서 성공 응답.
+

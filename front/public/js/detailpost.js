@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('postId');
+    const imageElement = document.querySelector('.content-thumbnail');
 
     //게시글 불러오기
     fetch('http://localhost:3001/posts')
@@ -69,7 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.content-author-date').textContent = post.createtime;
             document.querySelector('.content-paragraph').textContent = post.content;
             document.querySelector('.content-author-img').src = post.profile_image;
-            document.querySelector('.content-thumbnail').src = post.image;
+            imageElement.src = `http://localhost:3001${post.image}`;
+            imageElement.style.width = '100%';  // 이미지의 너비를 부모 요소의 100%로 설정
+            imageElement.style.height = 'auto';  // 이미지의 높이를 자동으로 조정
+            imageElement.style.objectFit = 'contain';  // 이미지 비율을 유지하면서 요소에 맞춤
             document.querySelector('.content-view-button p:first-child').textContent = formatCount(Number(post.views));
             document.querySelector('.content-comment-button p:first-child').textContent = formatCount(Number(post.comments));
         }

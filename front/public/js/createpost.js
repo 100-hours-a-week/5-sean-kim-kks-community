@@ -119,27 +119,40 @@ const createPostButton = document.querySelector('.complete-button');
 createPostButton.addEventListener('click', async function(e){
     
     e.preventDefault();
-    try{
-        const response = await fetch('http://localhost:3001/posts', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: "application/json",
-            },
-            body: JSON.stringify({
-                title: contentHeader.value,
-                content: contentBody.value,
+    const header = contentHeader.value.trim(); 
+    const body = contentBody.value.trim();
+    const file = fileInput.files[0];
 
-                //image 추가 요망
-            })
-        });
-        if (response.ok){
-            alert('게시글이 작성되었습니다.')
-            window.location.href = "checkpostlist.html"; // 모두 작성되었을 때 페이지 이동
-        }
-    } catch (error){
-        console.error('Error', error);
-        alert('생성 중 에러 발생')
+    if (!header || !body) {
+        helperText[0].textContent = '*제목과 내용을 모두 작성해주세요.';
+    } else if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            const base64Image = e.target.result; // Base64 인코딩된 이미지 데이터
+            try {
+                const response = await fetch('http://localhost:3001/posts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title: header,
+                        content: body,
+                        image: base64Image // 이미지 데이터 추가
+                    })
+                });
+                if (response.ok) {
+                    alert('게시글이 작성되었습니다.');
+                    window.location.href = "checkpostlist.html";
+                }
+            } catch (error) {
+                console.error('Error', error);
+                alert('생성 중 에러 발생');
+            }
+        };
+        reader.readAsDataURL(file);
+    } else {
+        alert('이미지 파일을 선택해주세요.');
     }
 });
 
