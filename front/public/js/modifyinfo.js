@@ -1,8 +1,41 @@
 "use strict";
-//먼저 2번 먼저 하자구. 수정하기 버튼 클릭시 
 
 const editButton = document.querySelector('.tail-edit-button');
 const helperText = document.querySelector('.profile-content-helper');
+const mainButton = document.querySelector('.header-title');
+const fileInput = document.getElementById('profile-image-upload');
+const filePreview = document.querySelector('.profile-img');
+const previewContainer = document.querySelector('.profile-img-wrapper');
+//이미지 파일 삽입
+document.addEventListener('DOMContentLoaded', function () {
+    
+
+    fileInput.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        
+        // 이 부분에서 선택된 파일이 이미지인지 확인
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            
+            reader.onload = function (e) {
+                // 이미지 미리보기를 표시하기 위한 img 요소를 생성
+                filePreview.src = e.target.result;
+                // 이전에 추가된 이미지를 제거
+                // 새로운 이미지를 추가
+            };
+            
+            reader.readAsDataURL(file);
+        } else {
+            alert('이미지 파일을 선택해주세요.');
+            
+        }
+    });
+});
+
+
+mainButton.addEventListener('click', function(){
+        window.location.href = 'checkpostlist.html';
+    });
 
 editButton.addEventListener('click', function(event){
     event.preventDefault();
@@ -56,9 +89,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
-
-
 //모달 팝업창으로 수정해야함.
 
     var infoModal = document.querySelector('.info-delete-modal');
@@ -80,6 +110,10 @@ document.addEventListener('DOMContentLoaded', function() {
             infoModal.style.display = 'none';
             window.location.href = "checkpostlist.html"
         });
+
+
+
+
 /*
 1. 헤더 프로필 이미지 hover시 배경식 E9E9E9
     클릭시 각 페이지로 이동

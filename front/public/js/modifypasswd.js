@@ -17,12 +17,16 @@
     수정 성공하면 '수정 성공'이라는 토스트메세지 표시
 */
 
-
     const passwordInput = document.querySelector('.body-passwd-input');
     const passwordCheckInput = document.querySelector('.body-passwdck-input');
     const editButton = document.querySelector('.edit-button');
     const passwordHelper = document.querySelector('.body-passwd-helper');
     const passwordCheckHelper = document.querySelector('.body-passwdck-helper');
+    const mainButton = document.querySelector('.header-title');
+
+    mainButton.addEventListener('click', function(){
+        window.location.href = 'checkpostlist.html';
+    });
 
     function validatePassword(password) {
         const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
@@ -45,6 +49,43 @@
 
     }
 
+    //헤더 프로필 이미지 호버 배경 변경
+    //=======================================================================================
+    const menuItems = document.querySelectorAll('.menu-item');
+
+    menuItems.forEach(function(menuItem) {
+        menuItem.addEventListener('mouseover', function() {
+            menuItem.style.backgroundColor = '#E9E9E9';
+        });
+
+        menuItem.addEventListener('mouseout', function() {
+            menuItem.style.backgroundColor = '#d9d9d9';
+        });
+    });
+
+    // 프로필 이미지 클릭 이벤트 추가
+    document.addEventListener('DOMContentLoaded', function() {
+        var menuItems = document.querySelectorAll('.menu-item');
+
+        // 첫 번째 menu-item (회원정보수정)에 클릭 이벤트 추가
+        menuItems[0].addEventListener('click', function() {
+            // 오타로 인한 문제를 JS로 해결
+            window.location.href = 'modifyinfo.html'; // 오타가 있는 herf 속성 사용
+        });
+
+        // 두 번째 menu-item (비밀번호수정)에 클릭 이벤트 추가
+        menuItems[1].addEventListener('click', function() {
+            window.location.href = 'modifypasswd.html'; // 비밀번호 변경 페이지로 이동
+        });
+
+        // 세 번째 menu-item (로그아웃)에 클릭 이벤트 추가
+        menuItems[2].addEventListener('click', function() {
+            window.location.href = 'login.html'; // 로그아웃 처리 페이지로 이동
+        });
+    });
+    //=======================================================================================
+
+
     editButton.addEventListener('click', function(event){
         event.preventDefault();
         if(!editButton.disabled){
@@ -53,7 +94,8 @@
 
     });
 
-
+    //비밀번호 유효성 검사
+    //=======================================================================================
     passwordInput.addEventListener('focusout', function() {
         if (passwordInput.value === '') {
             passwordHelper.innerText = '*비밀번호를 입력해주세요.';
@@ -82,7 +124,12 @@
         }
         checkAllValidations();
     });
+    //입력값 수정시에마다 확인
+    passwordInput.addEventListener('input', checkAllValidations);
+    passwordCheckInput.addEventListener('input', checkAllValidations);
 
-//입력값 수정시에마다 확인
-passwordInput.addEventListener('input', checkAllValidations);
-passwordCheckInput.addEventListener('input', checkAllValidations);
+//=======================================================================================
+
+//비밀번호 수정 fetch 유효성 검사 통과 시 해당 userId 값을 받아서 그 id 값에 일치하는 비밀번호를 변경
+
+

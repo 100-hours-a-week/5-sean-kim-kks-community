@@ -8,6 +8,6 @@ router.post("/", commentPath.postComment);
 
 router.delete("/:id", commentPath.deleteComment);
 
-router.put("/:id", commentPath.updateComment); // 수정 요청을 처리할 PUT 엔드포인트 추가
+router.put("/:id", commentPath.updateComment);
 
 module.exports = router;

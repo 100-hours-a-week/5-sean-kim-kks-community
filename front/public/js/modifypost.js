@@ -3,6 +3,44 @@ const titleInput = document.querySelector('.content-header-subtitle-input');
 const fileUpload = document.getElementById('file-upload');
 const completeButton = document.querySelector('.complete-button');
 
+//헤더 프로필 이미지 호버 배경 변경
+const menuItems = document.querySelectorAll('.menu-item');
+const mainButton = document.querySelector('.header-title');
+
+    mainButton.addEventListener('click', function(){
+        window.location.href = 'checkpostlist.html';
+    });
+
+menuItems.forEach(function(menuItem) {
+    menuItem.addEventListener('mouseover', function() {
+        menuItem.style.backgroundColor = '#E9E9E9';
+    });
+
+    menuItem.addEventListener('mouseout', function() {
+        menuItem.style.backgroundColor = '#d9d9d9';
+    });
+});
+
+// 프로필 이미지 클릭 이벤트 추가
+document.addEventListener('DOMContentLoaded', function() {
+    var menuItems = document.querySelectorAll('.menu-item');
+
+    // 첫 번째 menu-item (회원정보수정)에 클릭 이벤트 추가
+    menuItems[0].addEventListener('click', function() {
+        // 오타로 인한 문제를 JS로 해결
+        window.location.href = 'modifyinfo.html'; // 오타가 있는 herf 속성 사용
+    });
+
+    // 두 번째 menu-item (비밀번호수정)에 클릭 이벤트 추가
+    menuItems[1].addEventListener('click', function() {
+        window.location.href = 'modifypasswd.html'; // 비밀번호 변경 페이지로 이동
+    });
+
+    // 세 번째 menu-item (로그아웃)에 클릭 이벤트 추가
+    menuItems[2].addEventListener('click', function() {
+        window.location.href = 'login.html'; // 로그아웃 처리 페이지로 이동
+    });
+});
 
 document.addEventListener('DOMContentLoaded', function() {
     
