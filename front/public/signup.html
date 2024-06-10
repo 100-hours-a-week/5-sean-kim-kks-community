@@ -33,10 +33,12 @@
                     <div class="profile-header">프로필 사진</div>
                     <div class="profile-helper">*helper text</div>
                     <div class="profile-img-wrapper">
-                        <div class="profile-img"></div>
-                        <div class="upload-button">
-                            <input type="file" accept="image/*" style="display:none" onchange="handleFiles(this.files)">
-                            <span>+</span>
+                        <div class="profile-img-wrapper">
+                            <div class="profile-img"></div>
+                            <div class="upload-button">
+                                <input type="file" id="profileInput" accept="image/*" style="display:none">
+                                <span onclick="document.getElementById('profileInput').click()">+</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -45,27 +47,27 @@
                 <div class="sign-up-wrapper">
                     <div class="sign-up-email-wrapper">
                         <div class="sign-up-email">이메일*</div>
-                        <input type="email" class="sign-up-email-input" placeholder="  이메일을 입력하세요">
+                        <input type="email" class="sign-up-email-input" placeholder="이메일을 입력하세요">
                         <div class="sign-up-email-helper">*helper text</div>
                     </div>
                     <div class="sign-up-passwd-wrapper">
                         <div class="sign-up-passwd">비밀번호*</div>
-                        <input type="email" class="sign-up-passwd-input" placeholder="  비밀번호를 입력하세요">
+                        <input type="email" class="sign-up-passwd-input" placeholder="비밀번호를 입력하세요">
                         <div class="sign-up-passwd-helper">*helper text</div>
                     </div>
                     <div class="sign-up-passwdck-wrapper">
                         <div class="sign-up-passwdck">비밀번호 확인*</div>
-                        <input type="email" class="sign-up-passwdck-input" placeholder="  비밀번호를 한번 더 입력하세요">
+                        <input type="email" class="sign-up-passwdck-input" placeholder="비밀번호를 한번 더 입력하세요">
                         <div class="sign-up-passwdck-helper">*helper text</div>
                     </div>
                     <div class="sign-up-name-wrapper">
                         <div class="sign-up-name">닉네임*</div>
-                        <input type="email" class="sign-up-name-input" placeholder="  닉네임을 입력하세요">
+                        <input type="email" class="sign-up-name-input" placeholder="닉네임을 입력하세요">
                         <div class="sign-up-name-helper">*helper text</div>
                     </div>
                 </div>
                 <div class="sign-up-button-wrapper">
-                    <a href="로그인.html" class="sign-up-button">회원가입</a>
+                    <p class="sign-up-button">회원가입</p>
                     <a href="로그인.html" class="go-to-login">로그인하러 가기</a>
                 </div>
             </div>

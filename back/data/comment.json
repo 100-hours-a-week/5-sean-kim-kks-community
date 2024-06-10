@@ -60,7 +60,7 @@
     "commentId": 9,
     "nickname": "익명",
     "createtime": "2024-05-10 16:27:10",
-    "content": "안녕하세요"
+    "content": "안녕하세요 반가워요!!!"
   },
   {
     "postId": "17",
@@ -68,5 +68,12 @@
     "nickname": "익명",
     "createtime": "2024-05-13 14:38:11",
     "content": "555"
+  },
+  {
+    "postId": "3",
+    "commentId": 12,
+    "nickname": "익명",
+    "createtime": "2024-05-28 00:03:38",
+    "content": "여기 어디임? 먹고 싶다!!!!!!!!!!!!!!!!!!!!!!!!!!!"
   }
 ]

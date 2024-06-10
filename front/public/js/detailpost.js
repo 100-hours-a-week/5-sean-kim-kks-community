@@ -267,7 +267,7 @@ contentModalConfirm.addEventListener('click', async function(){
         }
     });
 
-
+const commentBoxButton = document.querySelector('.comment-box-submit-button')
 // 조회수 댓글 k 로 변경
     viewCount.textContent = formatCount(Number(viewCount.textContent));
     commentCount.textContent = formatCount(Number(commentCount.textContent));
@@ -275,45 +275,47 @@ contentModalConfirm.addEventListener('click', async function(){
 // 4. 댓글 입력 기능
 document.addEventListener('DOMContentLoaded', function(){
     commentSubmitButton.addEventListener('click', async function(event){
-        event.preventDefault(); // 폼 제출 기본 이벤트 방지
-        const commentContent = commentInput.value.trim(); // 입력창의 내용을 가져옵니다.
+        if(commentBoxButton === '댓글 등록'){
+            event.preventDefault(); // 폼 제출 기본 이벤트 방지
+            const commentContent = commentInput.value.trim(); // 입력창의 내용을 가져옵니다.
 
-        if(commentContent) {
-            try {
-                const urlParams = new URLSearchParams(window.location.search);
-                const postId = urlParams.get('postId'); // URL에서 postId를 가져옵니다.
+            if(commentContent) {
+                try {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const postId = urlParams.get('postId'); // URL에서 postId를 가져옵니다.
 
-                // 서버로 전송할 데이터
-                const data = {
-                    postId: postId, // 댓글이 달릴 게시글의 ID
-                    content: commentContent, // 댓글 내용
-                    // 필요하다면 여기에 더 많은 필드를 추가할 수 있습니다.
-                };
+                    // 서버로 전송할 데이터
+                    const data = {
+                        postId: postId, // 댓글이 달릴 게시글의 ID
+                        content: commentContent, // 댓글 내용
+                        // 필요하다면 여기에 더 많은 필드를 추가할 수 있습니다.
+                    };
 
-                const response = await fetch('http://localhost:3001/comments', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data), // 자바스크립트 객체를 JSON 문자열로 변환
-                });
+                    const response = await fetch('http://localhost:3001/comments', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data), // 자바스크립트 객체를 JSON 문자열로 변환
+                    });
 
-                if(response.ok) {
-                    const result = await response.json(); // 서버로부터 받은 응답을 JSON으로 파싱
-                    // 댓글 제출 후 처리 로직 (예: 페이지 새로고침, 댓글 목록 갱신 등)
-                    console.log('댓글이 성공적으로 등록되었습니다.', result);
-                    document.location.reload(true); // 페이지를 새로 고침하여 댓글을 갱신
-                } else {
-                    // 서버에서 문제가 발생했을 때의 처리
-                    alert('댓글 등록 실패. 서버에서 문제가 발생했습니다.');
+                    if(response.ok) {
+                        const result = await response.json(); // 서버로부터 받은 응답을 JSON으로 파싱
+                        // 댓글 제출 후 처리 로직 (예: 페이지 새로고침, 댓글 목록 갱신 등)
+                        console.log('댓글이 성공적으로 등록되었습니다.', result);
+                        document.location.reload(true); // 페이지를 새로 고침하여 댓글을 갱신
+                    } else {
+                        // 서버에서 문제가 발생했을 때의 처리
+                        alert('댓글 등록 실패. 서버에서 문제가 발생했습니다.');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('댓글 등록 중 에러가 발생했습니다.');
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('댓글 등록 중 에러가 발생했습니다.');
+            } else {
+                // 댓글 내용이 비어있을 때의 처리
+                alert('댓글 내용을 입력해주세요.');
             }
-        } else {
-            // 댓글 내용이 비어있을 때의 처리
-            alert('댓글 내용을 입력해주세요.');
         }
     });
 
