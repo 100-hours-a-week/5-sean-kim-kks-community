@@ -78,9 +78,4 @@ loginButton.addEventListener('click', async function(e){
 
 //=======================================================================================
 //로그인 시도 post 요청
-//request body의 userId 와 password가 일치하는 유저 조회
-//서버 logiin 컨트롤러 req.body.userId, req.body.password 일치하는 유저 조회
-//해당 유저가 있다면 sessiion에 userid 저장 성공응답
-//login 상태 변경 login 상태 true 서버로 해당 유저의 정보 요청
-// req.session.userid 없다면 실패응답 있다면 유저 정보를 response 객체 담아서 성공 응답.
 
