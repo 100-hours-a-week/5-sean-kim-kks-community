@@ -34,7 +34,7 @@ loginWrapperElem.addEventListener('keyup', () => {
 
 //로그인 버튼 유효성 검사
 loginButton.addEventListener('click', async function(e){
-    e.defaultPrevented;
+    e.preventDefault();
     const email = emailInput.value.trim(); // 공백 제거 한 후 email 에 저장
     const password = passwordInput.value.trim();
 
@@ -54,28 +54,27 @@ loginButton.addEventListener('click', async function(e){
 
     //여기서 서버에 로그인 요청을 보내야함. post로 로그인 요청
     try {
-        const response = await fetch(`http://localhost:3001/users`, { // 로그인 경로 수정 필요
+        const response = await fetch(`http://localhost:3001/users/signin`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ email, password }),
+            credentials: 'include'
         });
 
         const data = await response.json();
 
         if (data.success) {
             alert('로그인 성공!');
-            window.location.href = "checkpostlist.html"; // 로그인 성공 시 리디렉션
+            window.location.href = "checkpostlist.html";
         } else {
             alert(data.message);
         }
     } catch (error) {
         console.error('로그인 에러:', error);
+        alert('로그인 중 문제가 발생했습니다.');
     }
-    
 });
 
-//=======================================================================================
-//로그인 시도 post 요청
 

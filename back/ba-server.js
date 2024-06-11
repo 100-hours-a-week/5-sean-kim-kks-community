@@ -4,28 +4,44 @@ const port = 3001;
 const path = require('path');
 const fs = require('fs');
 const session = require('express-session');
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const MySQLStore = require('express-mysql-session')(session);
 
-//db연결
-const db = require("./config/mysql.js");
-const conn = db.init();
-db.connect(conn);
-
-//base64를 위한 json 파서 최대 크기 증가
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
-
-app.use(express.json()); 
-app.use(cors());
-
-
 app.use(cookieParser());
+
+//db연결
+const dbOptions = {
+    host: 'localhost',
+    port: 3306,
+    user: 'junho',
+    password: 'Qwerasdf1234!',
+    database: 'community'
+};
+
+const sessionStore = new MySQLStore(dbOptions);
+
+// CORS 정책 설정: credentials 옵션과 함께 구체적인 도메인 지정
+app.use(cors({
+    origin: 'http://localhost:8080',  // 클라이언트 주소를 정확히 지정
+    credentials: true,  // 자격증명 포함 허용
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: ['Content-Type']
+}));
+
 app.use(session({
-    secret: 'mySecretKey',
+    key: 'session_cookie_name',
+    secret: 'session_secret',
+    store: sessionStore,
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false } // HTTPS가 아닌 경우 false로 설정
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24,  // 24시간
+        httpOnly: true
+    }
 }));
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -34,8 +50,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const postRoute = require("./router/postRouter")
 app.use("/posts", postRoute);
 
-const CommentRoute = require("./router/commentRouter")
-app.use("/comments", CommentRoute)
+const commentRoute = require("./router/commentRouter");  // 경로 및 변수명 확인
+app.use("/comments", commentRoute);
 
 const userRoute = require("./router/userRouter")
 app.use("/users", userRoute)

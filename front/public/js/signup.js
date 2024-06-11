@@ -103,15 +103,15 @@
         checkAllValidations(); 
     
         let isEmailDuplicated = false; // 초기화 위치 변경
-        if (emailInput.value !== '') { // 불필요한 fetch를 방지하기 위해 빈 값 체크
-            try {
-                const response = await fetch("./data/userdata.json");
-                const data = await response.json();
-                isEmailDuplicated = data.some(user => user.email === emailInput.value);
-            } catch (error) {
-                console.log('Error', error);
-            }
-        }
+        // if (emailInput.value !== '') { // 불필요한 fetch를 방지하기 위해 빈 값 체크
+        //     try {
+        //         const response = await fetch("./data/userdata.json");
+        //         const data = await response.json();
+        //         isEmailDuplicated = data.some(user => user.email === emailInput.value);
+        //     } catch (error) {
+        //         console.log('Error', error);
+        //     }
+        // }
     
         if (emailInput.value === '') {
             emailHelper.innerText = '*이메일을 입력해주세요';
@@ -167,7 +167,7 @@
             reader.onload = async function (e) {
                 try {
                     const base64Image = e.target.result;
-                    const response = await fetch('http://localhost:3001/users', {
+                    const response = await fetch('http://localhost:3001/users/signup', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

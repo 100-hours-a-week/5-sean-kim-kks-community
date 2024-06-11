@@ -13,6 +13,7 @@ const commentModal = document.querySelector('.comment-delete-modal');
 const commentModalCancel = document.querySelector('.comment-delete-modal-cancel');
 const commentModalConfirm = document.querySelector('.comment-delete-modal-confirm')
 const mainButton = document.querySelector('.header-title');
+var isEditing = false;
 
     mainButton.addEventListener('click', function(){
         window.location.href = 'checkpostlist.html';
@@ -77,22 +78,26 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.content-view-button p:first-child').textContent = formatCount(Number(post.views));
             document.querySelector('.content-comment-button p:first-child').textContent = formatCount(Number(post.comments));
         }
-//===================게시글 수정(제목, 컨텐츠 수정페이지에 추가 필요)===============================
-        editButton.addEventListener('click', function() {
-            localStorage.setItem('editingPost', JSON.stringify(post));
-            window.location.href = `modifypost.html?postId=${post.id}`;
-        });
+
 //=======================================================================================
         })
         .catch(error => console.error('Error loading post data:', error));
     
-    //댓글 불러오기
-    fetch('http://localhost:3001/comments')
-        .then(response => response.json())
+        //댓글 불러오기
+        fetch('http://localhost:3001/comments', {
+            credentials: 'include'
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('로그인 필요');
+            }
+        })
         .then(comments => {
             const commentsForPost = comments.filter(comment => comment.postId == postId);
             const commentsContainer = document.querySelector('.comment-footer');
-            
+                
             // 기존 게시글 데이터 제거
             while (commentsContainer.firstChild) {
                 commentsContainer.removeChild(commentsContainer.firstChild);
@@ -113,8 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div class="comment-button">
                     <button class="comment-edit-button" data-commentid="${comment.commentId}">수정</button>
-                    <button class="comment-delete-button" data-commentid="${comment.commentId}">삭제</button>
-                </div>
+                    <button class="comment-delete-button" data-commentid="${comment.commentId}">삭제</button>                </div>
                 `;
 
                 commentsContainer.appendChild(commentElement);
@@ -123,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 commentElement.querySelector('.comment-delete-button').addEventListener('click', function() {
                     commentModal.style.display = 'block';
 
-                    //각 댓글 모달창 댓글 삭제
+                        //각 댓글 모달창 댓글 삭제
                     commentModalConfirm.onclick = async () => {
                         try {
                             const response = await fetch(`http://localhost:3001/comments/${comment.commentId}`, {
@@ -140,22 +144,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         } catch (error) {
                             console.error('Error:', error);
                             alert('삭제 중 에러가 발생했습니다.');
-                            commentModal.style.display = 'none';
+                            commentModal.style.display = 'none';                        
                         }
+                        
                     };
-                    //댓글 모달창 삭제 취소
-                    commentModalCancel.onclick = () => {
-                        commentModal.style.display = 'none';
+                        //댓글 모달창 삭제 취소
+                        commentModalCancel.onclick = () => {
+                            commentModal.style.display = 'none';
                     };
                 });
 //===============================================================================================================
 
-                editButton.addEventListener('click', function() {
-                    localStorage.setItem('editingPost', JSON.stringify(post));
-                    window.location.href = `modifypost.html?postId=${post.id}`;
-                });
+    
 
-                var isEditing = false;
                 var currentEditingComment = null;
 
                 commentElement.querySelector('.comment-edit-button').addEventListener('click', async function() {
@@ -203,21 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }); //commentsForPost.forEach(comment => {
     });     // fetch('http://localhost:3001/comments')  .then(response => response.json()).then(comments => {   
 }); //      document.addEventListener('DOMContentLoaded', () => {
-
-
-
-
-commentSubmitButton.addEventListener('click', function(){
-    if (isEditing) {
-        // 댓글 수정 로직
-        currentEditingComment.textContent = commentInput.value;
-        isEditing = false; 
-        currentEditingComment = null;
-    } else {
-    }
-    commentSubmitButton.textContent = '댓글 등록';
-    commentSubmitButton.style.backgroundColor = '#ACA0EB';
-});
 
 
 //게시글 수정 로직 (게시글)
@@ -273,13 +259,13 @@ const commentBoxButton = document.querySelector('.comment-box-submit-button')
     commentCount.textContent = formatCount(Number(commentCount.textContent));
 
 // 4. 댓글 입력 기능
-document.addEventListener('DOMContentLoaded', function(){
-    commentSubmitButton.addEventListener('click', async function(event){
-        if(commentBoxButton === '댓글 등록'){
-            event.preventDefault(); // 폼 제출 기본 이벤트 방지
+document.addEventListener('DOMContentLoaded', function() {
+    commentSubmitButton.addEventListener('click', async function(event) {
+        event.preventDefault(); // 폼 제출 기본 이벤트 방지
+        if (commentSubmitButton.textContent === '댓글 등록') {
             const commentContent = commentInput.value.trim(); // 입력창의 내용을 가져옵니다.
 
-            if(commentContent) {
+            if (commentContent) {
                 try {
                     const urlParams = new URLSearchParams(window.location.search);
                     const postId = urlParams.get('postId'); // URL에서 postId를 가져옵니다.
@@ -287,25 +273,23 @@ document.addEventListener('DOMContentLoaded', function(){
                     // 서버로 전송할 데이터
                     const data = {
                         postId: postId, // 댓글이 달릴 게시글의 ID
-                        content: commentContent, // 댓글 내용
-                        // 필요하다면 여기에 더 많은 필드를 추가할 수 있습니다.
+                        content: commentContent // 댓글 내용
                     };
 
                     const response = await fetch('http://localhost:3001/comments', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json',
+                            'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify(data), // 자바스크립트 객체를 JSON 문자열로 변환
+                        credentials: 'include', // 이 부분이 중요
+                        body: JSON.stringify(data)
                     });
 
-                    if(response.ok) {
+                    if (response.ok) {
                         const result = await response.json(); // 서버로부터 받은 응답을 JSON으로 파싱
-                        // 댓글 제출 후 처리 로직 (예: 페이지 새로고침, 댓글 목록 갱신 등)
                         console.log('댓글이 성공적으로 등록되었습니다.', result);
                         document.location.reload(true); // 페이지를 새로 고침하여 댓글을 갱신
                     } else {
-                        // 서버에서 문제가 발생했을 때의 처리
                         alert('댓글 등록 실패. 서버에서 문제가 발생했습니다.');
                     }
                 } catch (error) {
@@ -313,17 +297,15 @@ document.addEventListener('DOMContentLoaded', function(){
                     alert('댓글 등록 중 에러가 발생했습니다.');
                 }
             } else {
-                // 댓글 내용이 비어있을 때의 처리
                 alert('댓글 내용을 입력해주세요.');
             }
         }
     });
 
     commentInput.addEventListener('input', function() {
-        if(commentInput.value.trim() === ''){
+        if (commentInput.value.trim() === '') {
             commentSubmitButton.style.backgroundColor = '#ACA0EB';
-        }
-        else {
+        } else {
             commentSubmitButton.style.backgroundColor = '#7F6AEE';
         }
     });
