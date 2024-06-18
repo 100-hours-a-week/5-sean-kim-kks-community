@@ -10,7 +10,7 @@ const cors = require('cors');
 const MySQLStore = require('express-mysql-session')(session);
 
 app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.urlencoded({ limit: '5mb', extended: true }));
 app.use(cookieParser());
 
 //db연결
@@ -20,7 +20,7 @@ const dbOptions = {
     user: 'junho',
     password: 'Qwerasdf1234!',
     database: 'community'
-};
+};0
 
 const sessionStore = new MySQLStore(dbOptions);
 
@@ -28,7 +28,7 @@ const sessionStore = new MySQLStore(dbOptions);
 app.use(cors({
     origin: 'http://localhost:8080',  // 클라이언트 주소를 정확히 지정
     credentials: true,  // 자격증명 포함 허용
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: 'GET,PUT,PATCH,POST,DELETE',
     allowedHeaders: ['Content-Type']
 }));
 

@@ -57,23 +57,26 @@
   },
   {
     "postId": "1",
-    "comment_Id": 9,
+    "commentId": 9,
     "userId": 5,
-    "createtime": "2024-06-11 23:01:04",
-    "content": "피자"
+    "nickname": "grulla79",
+    "createtime": "2024-06-18 14:22:05",
+    "content": "수정해야징"
   },
   {
     "postId": "1",
-    "comment_Id": null,
-    "userId": 5,
-    "createtime": "2024-06-11 23:05:43",
-    "content": "핏자"
+    "commentId": 12,
+    "userId": 6,
+    "nickname": "aogihqreo",
+    "createtime": "2024-06-18 17:03:31",
+    "content": "피자 맛있겠다 ㅎㅎ"
   },
   {
-    "postId": "1",
-    "comment_Id": null,
-    "userId": 5,
-    "createtime": "2024-06-11 23:09:38",
-    "content": "진짜 피자"
+    "postId": "2",
+    "commentId": 13,
+    "userId": 6,
+    "nickname": "aogihqreo",
+    "createtime": "2024-06-18 17:03:52",
+    "content": "짜장면 맛있어보인다"
   }
 ]

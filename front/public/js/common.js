@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     } catch (error) {
         console.error('세션 확인 중 에러 발생:', error);
-        window.location.href = 'signin.html';
+        window.location.href = '/signin.html'; // '/'를 붙여야 도메인 호스트 네임이 붙는다.
     }
 
     checkSessionStatus();

@@ -19,7 +19,7 @@ async function getUserNickname(userId) {
     try {
         const usersData = await fs.readFile(userFilePath, 'utf8');
         const users = JSON.parse(usersData);
-        const user = users.find(user => user.id === parseInt(userId, 10)); // userId를 숫자로 변환하여 비교
+        const user = users.find(user => user.userid === parseInt(userId, 10)); // userId를 숫자로 변환하여 비교
         return user ? user.nickname : null;
     } catch (error) {
         console.error('Error reading the users file:', error);
@@ -99,13 +99,13 @@ module.exports.updateComment = async (req, res, next) => {
 // 댓글 삭제
 module.exports.deleteComment = async (req, res, next) => {
     const commentId = parseInt(req.params.id);
-    const userId = req.session.userId;
+    const userId = req.session.userId; // 세션에서 가져온 userId
     try {
         const data = await fs.readFile(filePath, 'utf8');
         let comments = JSON.parse(data);
-        const commentIndex = comments.findIndex(comment => comment.commentId === commentId && comment.userId === userId);
+        const commentIndex = comments.findIndex(comment => comment.commentId === commentId);
 
-        if (commentIndex !== -1) {
+        if (commentIndex !== -1 && comments[commentIndex].userId === userId) { // 세션의 userId와 댓글의 userId 비교
             comments.splice(commentIndex, 1);
             await fs.writeFile(filePath, JSON.stringify(comments, null, 2));
             res.status(200).send({ message: "Comment deleted successfully" });
